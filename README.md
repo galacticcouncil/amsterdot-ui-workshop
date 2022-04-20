@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Workshop slides
 
-Available [here](https://hackmd.io/@maht0rz/S1gud2LVc#/).
+Available [here](https://hackmd.io/OFjHBFqWR6yyLgSmZ7HaQg).
 
 ## Quick start
 
