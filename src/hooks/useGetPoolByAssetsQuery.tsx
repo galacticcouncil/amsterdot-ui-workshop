@@ -9,14 +9,14 @@ export const getPoolByAssetsQuery = gql`
   query GetPoolByAssets($assets: [String!]!) {
       # ⚠️ pass the parameter to the resolver here
       pool(assets: $assets) @client{
-          id,
+          id
           assets,
           balances(assets: $assets) {
             assetId,
             free
           },
           spotPrice
-      }
+      },
   }
 `
 
@@ -26,7 +26,7 @@ export interface GetPoolByAssetsQueryResponse {
 }
 
 export interface GetPoolByAssetsQueryVariables {
-  assets?: AssetPair
+  assets: AssetPair
 }
 
 // useQuery only works inside of an ApolloProvider context
@@ -36,3 +36,4 @@ export const useGetPoolByAssetsQuery =
       getPoolByAssetsQuery,
       options
     );
+

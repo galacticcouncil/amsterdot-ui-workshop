@@ -1,3 +1,4 @@
+import { Resolver } from "@apollo/client";
 import { OrmlAccountData } from "@open-web3/orml-types/interfaces/tokens";
 import { ApiPromise } from "@polkadot/api";
 import { AssetId } from "./pool";
@@ -56,15 +57,14 @@ export interface ParentEntity {
 }
 
 export interface PoolResolverArgs {
-  assets?: AssetId[]
+  assets: AssetId[]
 }
 
-export const balancesResolver = (apiInstance?: ApiPromise) =>
-  async (entity: ParentEntity, args: PoolResolverArgs): Promise<Balance[] | undefined> => {
-    if (!args.assets) return;
+export const balancesResolver = (apiInstance?: ApiPromise): Resolver =>
+  async (entity: ParentEntity, { assets }: PoolResolverArgs): Promise<Balance[] | undefined> => {
     if (!apiInstance) throw new Error('SDK instance is not ready yet');
 
     const nativeBalance = await getNativeBalance(apiInstance)(entity.id);
-    const tokenBalances = await getTokensBalances(apiInstance)(entity.id, args.assets)
+    const tokenBalances = await getTokensBalances(apiInstance)(entity.id, assets)
     return [nativeBalance].concat(tokenBalances);
   }

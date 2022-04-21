@@ -1,10 +1,10 @@
-import { ApolloClient, ApolloProvider, InMemoryCache, Resolvers } from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject, Resolvers } from "@apollo/client";
+import { VoidFn } from "@polkadot/api/types";
 import { PropsWithChildren, useEffect, useMemo, useRef } from "react"
 import { balancesResolver } from "../lib/balances";
+import { invalidateCachePerBlock } from "../lib/invalidateCachePerBlock";
 import { poolResolver, spotPriceFieldPolicy } from "../lib/pool";
 import { Dependencies, useDependencyContext } from "./useDependencies";
-import { invalidateCachePerBlock } from "../lib/invalidateCachePerBlock";
-import { VoidFn } from "@polkadot/api/types";
 
 export const useResolvers = (dependencies?: Dependencies): Resolvers => {
   return useMemo(() => {
@@ -19,10 +19,12 @@ export const useResolvers = (dependencies?: Dependencies): Resolvers => {
   }, [dependencies])
 }
 
-export const useApolloClient = () => {
+export const useApolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const client = useMemo(() => {
     return new ApolloClient({
-      uri: '',
+      uri: 'https://amsterdot-processor.eu.ngrok.io/graphql',
+      // uri: 'https://bsx-api-testnet.hydration.cloud/graphql',
+      // uri: '',
       cache: new InMemoryCache({
         /**
          * 
@@ -62,7 +64,7 @@ export const useApolloClient = () => {
   return client
 }
 
-export const ConfiguredApolloProvider = ({ children }: PropsWithChildren<{}>) => {
+export const ConfiguredApolloProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const client = useApolloClient();
   return <ApolloProvider client={client}>
     {children}

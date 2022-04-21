@@ -1,6 +1,6 @@
 import { ApiPromise } from "@polkadot/api";
 import constate from "constate"
-import { Dispatch, PropsWithChildren, SetStateAction, useEffect, useMemo, useState } from "react"
+import { Dispatch, PropsWithChildren, SetStateAction, useEffect, useState } from "react"
 import { createInstance } from "../lib/polkadotJs";
 
 export interface Dependencies {
@@ -32,5 +32,12 @@ export const [DependencyProvider, useDependencyContext] =
 
 export const useDependenciesLoading = (): boolean => {
   const dependencies = useDependencyContext();
-  return !dependencies?.polkadotJs
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!dependencies?.polkadotJs) return;
+    setLoading(false);
+  }, [dependencies, setLoading]);
+
+  return loading;
 }

@@ -1,12 +1,12 @@
-import { GetPoolByAssetsQueryResponse } from "../hooks/useGetPoolByAssetsQuery"
-import { Pool as PoolModel } from "../lib/pool"
+import { Balances } from "../lib/balances"
+import { Pool as PoolModel, SpotPrice } from "../lib/pool"
 
 export interface PoolProps {
-  pool?: GetPoolByAssetsQueryResponse['pool'],
+  pool?: PoolModel & Balances & SpotPrice,
   loading: boolean
 }
 
-export const Pool = ({ pool, loading }: PoolProps) => {
+export const Pool: React.FC<PoolProps> = ({ pool, loading }) => {
   return <>
     {!loading
         ? pool

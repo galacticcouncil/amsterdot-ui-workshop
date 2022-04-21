@@ -68,19 +68,16 @@ export const getPoolId =
   }
 
 export interface PoolResolverArgs {
-  assets?: AssetPair
+  assets: AssetPair
 }
 
 export const poolResolver = 
   (apiInstance?: ApiPromise): Resolver => 
-  async (_entity: unknown, args: PoolResolverArgs, context: unknown): Promise<Pool | undefined> => {
-    // no assets were specified, we don't have a pool for that
-    // do not throw any errors - this is on purpose
-    if (!args.assets) return;
+  async (_entity: unknown, { assets }: PoolResolverArgs, context: unknown): Promise<Pool | undefined> => {
     // throw an error if the dependency isn't ready yet
     if (!apiInstance) throw new Error('SDK instance is not ready yet')
     // get the ID of the pool by its assets
-    const id = await getPoolId(apiInstance)(args.assets);
+    const id = await getPoolId(apiInstance)(assets);
     // if we can't find the requested pool, throw an error
     if (!id) throw new Error('Pool not found');
     // proceed with fetching the pool

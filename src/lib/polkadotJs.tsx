@@ -1,6 +1,7 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
+import { ApiOptions } from "@polkadot/api/types";
 
-const rpc = {
+const rpc: ApiOptions['rpc'] = {
   xyk: {
     getPoolAccount: {
       description: 'Get pool account id by asset IDs',
@@ -19,7 +20,7 @@ const rpc = {
   },
 };
 
-export const createInstance = async (): Promise<any> => {
+export const createInstance = async (): Promise<ApiPromise> => {
   // const provider = new WsProvider('wss://amsterdot.eu.ngrok.io')
   const provider = new WsProvider('wss://basilisk-rpc.hydration.cloud/');
   const instance = await ApiPromise.create({ provider, rpc });

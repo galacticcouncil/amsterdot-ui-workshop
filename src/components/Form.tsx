@@ -12,7 +12,7 @@ export interface FormFields {
   assetOut: string
 }
 
-export const Form = ({ assets, onAssetsChange }: FormProps) => {
+export const Form: React.FC<FormProps> = ({ assets, onAssetsChange }) => {
   const form = useForm<FormFields>({
     defaultValues: assets && {
       assetIn: assets[0],
